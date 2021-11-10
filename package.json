@@ -1,4 +1,5 @@
 {
+  "homepage": "https://vinuj.github.io/typescript-calculator",
   "name": "typescript-calculator",
   "version": "0.1.0",
   "private": true,
@@ -13,10 +14,13 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
+    "sass": "^1.43.4",
     "typescript": "^4.4.4",
     "web-vitals": "^1.1.2"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
