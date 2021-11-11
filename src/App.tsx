@@ -1,49 +1,56 @@
 import React, { FC, useState } from "react";
 import "./App.scss";
 
-/*
-  <props that it takes>  - directly or INTERFACE
-  interface Props {
-    text: string; (boolean, number, (bob: syting) => void)
-    obj: {
-      f1: string'
-    }
-    or obj: SomeInterface
-  }
-
-  ctrl+space to see passable props + general auto complete
-
-  ? mark before colon means optional
-
-  useState default infers type, useState<number | null>
-  undefined different type to null
-
-  pass interfaces or objects into <>
-
-  e.g. useRef<HTMLInputElement>(null)
-
-  use hover a lot to get type
-  
-*/
-
 const App: FC = () => {
   const [expression, setExpression] = useState<string>("");
-  const [answer, setAnswer] = useState<number>(0);
+  const [answer, setAnswer] = useState<number | string>(0);
+
+  const isOperator = (symbol: string): boolean => {
+    return /[\+\*\/\-]/.test(symbol);
+  };
 
   const display = (symbol: string): void => {
-    setExpression(expression + symbol);
-    if (expression[expression.length - 1] === "=") {
-      if (/[0-9.]/.test(symbol)) {
-        setExpression(symbol);
+    let current = expression;
+
+    // Check if two operators in a row have been inputted
+    if (isOperator(symbol) && isOperator(current[current.length - 1])) {
+      let newExp;
+      // Check for subtract sign allows for '5 * -5' to correctly evaluate to '-25'
+      if (/[-]/.test(symbol)) {
+        setExpression(current.slice(0, current.length) + symbol);
       } else {
-        setExpression(answer + symbol);
+        // Otherwise remove all operators but the last, allows for  '5 * - + 5' to correctly evaluate to '10'
+        let count = 0;
+        for (let i = 0; i < current.length; i++) {
+          if (isNaN(+current[i])) {
+            count++;
+          } else {
+            count = 0;
+          }
+        }
+        setExpression(current.slice(0, current.length - count) + symbol);
       }
+    } else {
+      // Ensures that any trailing decimal points are removed e.g. '10 + 5.' correctly evaluates to '15'
+      if (current) {
+        current = current + "";
+        let temp = current.split(/[\+\*\/\-]/g);
+        let lastNumber = temp[temp.length - 1];
+        if (!isNaN(+lastNumber) && /[\.]/.test(lastNumber) && symbol === ".") {
+          symbol = "";
+        }
+      }
+      // Replacing multiple 0s or multiple decimal points at beginning with just one
+      setExpression((current + symbol).replace(/^0/g, "").replace(/\.+/g, "."));
     }
+    setAnswer((current) =>
+      (current + symbol).replace(/^0/g, "").replace(/\.+/g, ".")
+    );
   };
 
   const calculate = (): void => {
     setAnswer(eval(expression));
-    setExpression(expression + "=");
+    setExpression(eval(expression));
   };
 
   const clearAll = (): void => {
@@ -67,7 +74,9 @@ const App: FC = () => {
               placeholder="0"
               disabled
             />
-            <div className="answer">{answer}</div>
+            <div className="answer" id="display">
+              {answer}
+            </div>
           </div>
           <div onClick={clearAll} className="calcButton AC tomato" id="clear">
             AC

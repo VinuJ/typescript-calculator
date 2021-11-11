@@ -33,9 +33,9 @@ a {
   font-family: 'JetBrains Mono', sans-serif;
   .container {
     @include flex-center;
-    //@include show-border;
     width: 90vw;
     .grid {
+      border: 5px solid black;
       width: 100%;
       max-width: 30rem;
       display: grid;
@@ -51,7 +51,7 @@ a {
       ;
       .calcButton {
         @include flex-center;
-        padding: 1rem 1rem;
+        padding: 1.5rem 1.5rem;
         background-color: grey;
         color: white;
         border: 1px solid black;
@@ -60,12 +60,14 @@ a {
           background-color: white;
           color: black;
         }
-        // add responsive typography
         @media (hover: hover) {
           &:hover {
             background-color: white;
             color: black;
           }
+        }
+        @media (min-width: 700px) {
+          padding: 2rem 2rem;
         }
       }
 
@@ -84,11 +86,14 @@ a {
         background-color: black;
         text-align: right;
         .input {
+          border: none;
           width: 100%;
           text-align: right;
           background-color: black;
           color: orange;
           padding: 2% 2%;
+          font-family: 'JetBrains Mono', sans-serif;
+          font-size: 1rem;
           &::placeholder {
             color: orange;
           }
