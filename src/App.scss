@@ -16,12 +16,14 @@
   box-sizing: border-box;
 }
 
+div,
 input,
 textarea,
 button,
 select,
 a {
   -webkit-tap-highlight-color: rgba(0,0,0,0);
+  -webkit-tap-highlight-color: transparent;
 }
 
 .App {
@@ -50,11 +52,21 @@ a {
       .calcButton {
         @include flex-center;
         padding: 1rem 1rem;
-        background: grey;
+        background-color: grey;
         color: white;
         border: 1px solid black;
         cursor: pointer;
+        &:active {
+          background-color: white;
+          color: black;
+        }
         // add responsive typography
+        @media (hover: hover) {
+          &:hover {
+            background-color: white;
+            color: black;
+          }
+        }
       }
 
       .dark-grey {
@@ -71,6 +83,20 @@ a {
         grid-area: dis;
         background-color: black;
         text-align: right;
+        .input {
+          width: 100%;
+          text-align: right;
+          background-color: black;
+          color: orange;
+          padding: 2% 2%;
+          &::placeholder {
+            color: orange;
+          }
+        }
+        .answer {
+          padding: 2% 2%;
+          color: white;
+        }
       }      
       .zero {
         grid-area: zero;
