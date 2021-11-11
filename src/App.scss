@@ -1,3 +1,83 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono&family=Sora&display=swap');
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin show-border {
+  border: 1px solid red; // @include debug;
+}
+
+* {
+  padding: 0px;
+  margin: 0px;
+  box-sizing: border-box;
+}
+
+input,
+textarea,
+button,
+select,
+a {
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
 .App {
-  text-align: center;
+  @include flex-center;
+  background-color: rgb(175, 152, 204);
+  height: 100vh;
+  font-family: 'JetBrains Mono', sans-serif;
+  .container {
+    @include flex-center;
+    //@include show-border;
+    width: 90vw;
+    .grid {
+      width: 100%;
+      max-width: 30rem;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(4, 1fr);
+      grid-template-areas: 
+        'dis dis dis dis'
+        'AC C divide multiply'
+        'seven eight nine minus'
+        'four five six plus'
+        'one two three equal'
+        'zero zero dot equal'
+      ;
+      .calcButton {
+        @include flex-center;
+        padding: 1rem 1rem;
+        background: grey;
+        color: white;
+        border: 1px solid black;
+        cursor: pointer;
+        // add responsive typography
+      }
+
+      .dark-grey {
+        background-color: rgb(54, 54, 54);
+      }
+      .tomato {
+        background-color: tomato;
+      }
+      .blue {
+        background-color: rgb(67, 67, 245);
+      }
+      
+      .dis {
+        grid-area: dis;
+        background-color: black;
+        text-align: right;
+      }      
+      .zero {
+        grid-area: zero;
+      }
+      .equal {
+        grid-area: equal;
+      }
+    }
+  }
 }
